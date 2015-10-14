@@ -1,0 +1,10 @@
+gacore/__init__.py
+gacore/grammar.py
+gacore/lispeval.py
+gacore/setup.py
+gacore/simplega.py
+gacore/test.py
+gacore.egg-info/PKG-INFO
+gacore.egg-info/SOURCES.txt
+gacore.egg-info/dependency_links.txt
+gacore.egg-info/top_level.txt

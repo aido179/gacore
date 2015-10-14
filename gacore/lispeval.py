@@ -17,9 +17,10 @@ Raises:
 """
 
 class evaluator:
-    def __init__(self, funcs):
+    def __init__(self, funcs, varsIn = None):
         #dict of functions to be used
         self.functions = funcs
+        self.vars = varsIn
 
     #Allow functions to be called by name in an argument, like in lisp.
     #ie.    lisp: (funcname arg1 arg2 ... argn)
@@ -34,7 +35,11 @@ class evaluator:
 
         #convert function name strings to defined functions
         if isinstance(args[0], str):
-            funcName = self.functions[args[0]]
+            #check if function is a defined grammar variable
+            if (self.vars != None) and (self.vars.callable(funcName)):
+                funcName = self.vars.get(funcName)
+            else:
+                funcName = self.functions[args[0]]
 
         #call any callable arguments
         for i in range(len(funcArgs)):
