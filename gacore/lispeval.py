@@ -34,22 +34,28 @@ class evaluator:
             return funcName
 
         #convert function name strings to defined functions
-        if isinstance(args[0], str):
-            #check if function is a defined grammar variable
-            if (self.vars != None) and (self.vars.callable(funcName)):
-                funcName = self.vars.get(funcName)
-            else:
-                funcName = self.functions[args[0]]
+        if isinstance(args[0], str) and (args[0] in self.functions):
+            funcName = self.functions[args[0]]
 
         #call any callable arguments
         for i in range(len(funcArgs)):
             #this will handle functions without args
             if callable(funcArgs[i]):
                 funcArgs[i] = funcArgs[i]()
+            elif self.vars.callable(funcArgs[i]):
+                funcArgs[i] = self.vars.call(funcArgs[i])
             #this will handle lisp style functions with args
             elif isinstance(funcArgs[i], list):
                 funcArgs[i] = self.eval(*funcArgs[i])
-        return funcName(*funcArgs)
+        try:
+            return funcName(*funcArgs)
+        except TypeError as err:
+            #funcName must be string.
+            #Either funcName has not been defined or it is a defined var.
+            if (self.vars != None) and (self.vars.callable(funcName)):
+                return self.vars.call(funcName)
+            else:
+                print(format(err))
 
 
 
