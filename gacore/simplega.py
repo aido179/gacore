@@ -72,7 +72,7 @@ class population():
         child2.extend(par1[crossPoint:])
         return [child1,child2]
 
-    def crossover(self, crossRate, population):
+    def crossover(self, crossRate, population, customCrossover = True):
         i = 0
         while i < len(population)*crossRate:
 
@@ -81,7 +81,10 @@ class population():
             par1 = population[p1]
             par2 = population[p2]
 
-            childrenChroms = self.mateChroms(par1.getChrom(),par2.getChrom())
+            if callable(customCrossover):
+                childrenChroms = customCrossover(par1.getChrom(),par2.getChrom())
+            else:
+                childrenChroms = self.mateChroms(par1.getChrom(),par2.getChrom())
 
             child1 = individual(self.chromLen,self.fitnessFunc, chrom=childrenChroms[0])
             child2 = individual(self.chromLen,self.fitnessFunc, chrom=childrenChroms[1])
@@ -96,7 +99,7 @@ class population():
             ind.mutate(rate)
         return population
 
-    def nextGen(self, crossoverRate, mutationRate):
+    def nextGen(self, crossoverRate, mutationRate, customCrossoverFunc = False):
         newGen = []
         self.bestInd = individual(self.chromLen,self.fitnessFunc, chrom=self.individuals[0].getChrom())
 
@@ -110,7 +113,7 @@ class population():
         #Tournament selection
         newGen.extend(self.select(self.popSize-3, self.individuals))
         #Crossover
-        newGen = self.crossover(crossoverRate, newGen)
+        newGen = self.crossover(crossoverRate, newGen, customCrossoverFunc)
         #Mutation
         newGen = self.mutate(mutationRate, newGen)
         #Add Elite, prevent mutation / crossover
