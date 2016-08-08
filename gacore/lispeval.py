@@ -42,7 +42,7 @@ class evaluator:
             #this will handle functions without args
             if callable(funcArgs[i]):
                 funcArgs[i] = funcArgs[i]()
-            elif self.vars.callable(funcArgs[i]):
+            elif self.vars!=None and self.vars.callable(funcArgs[i]):
                 funcArgs[i] = self.vars.call(funcArgs[i])
             #this will handle lisp style functions with args
             elif isinstance(funcArgs[i], list):
