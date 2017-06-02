@@ -1,6 +1,7 @@
 gacore/__init__.py
 gacore/grammar.py
 gacore/lispeval.py
+gacore/lispparse.py
 gacore/setup.py
 gacore/simplega.py
 gacore/test.py

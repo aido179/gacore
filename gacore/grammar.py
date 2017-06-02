@@ -31,7 +31,7 @@ class builder:
     def buildDepthFirst(self, gNonTerm):
 
         #instance for recursion
-        gb = builder()
+        gb = builder(self.symbols)
         self.gNonTerm = gNonTerm
         #iterate through lists
         if isinstance(self.gNonTerm, list):
